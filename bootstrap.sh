@@ -112,7 +112,7 @@ sync_repo() {
         rm -rf  $repo_path
         mkdir -p  $repo_path
         rm -rf  $repo_path
-        curl   "$repo_uri" "-o"  "tmp.zip"
+        curl  -k "$repo_uri" "-o"  "tmp.zip"
 	unzip  "-o" "tmp.zip" "-d" "$VIM_TMP_PATH" > /dev/null
 	for vim_file in `ls $VIM_TMP_PATH`
 	do
