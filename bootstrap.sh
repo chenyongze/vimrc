@@ -17,11 +17,10 @@
 ############################  SETUP PARAMETERS
 app_name='breaker-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.breaker-vim"
-[ -z "$REPO_URI" ] && REPO_URI='https://git.coding.net/breaker/vimrc.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
+[ -z "$REPO_URI" ] && REPO_URI='https://coding.net/u/breaker/p/vimrc/git/archive/NIPS-vim'
 debug_mode='0'
 fork_maintainer='0'
-[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/gmarik/vundle.git"
+[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/VundleVim/Vundle.vim/archive/master.zip"
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -105,22 +104,13 @@ do_backup() {
 sync_repo() {
     local repo_path="$1"
     local repo_uri="$2"
-    local repo_branch="$3"
-    local repo_name="$4"
 
-    msg "Trying to update $repo_name"
-
-    if [ ! -e "$repo_path" ]; then
+    msg "Trying to update $2"
+        rm -rf  $repo_path
         mkdir -p "$repo_path"
-        git clone -b "$repo_branch" "$repo_uri" "$repo_path"
+        curl -c  "$repo_uri" "$repo_path"
         ret="$?"
-        success "Successfully cloned $repo_name."
-    else
-        cd "$repo_path" && git pull origin "$repo_branch"
-        ret="$?"
-        success "Successfully updated $repo_name"
-    fi
-
+        success "Successfully cloned $2."
     debug
 }
 
@@ -194,8 +184,6 @@ do_backup       "$HOME/.vim" \
 
 sync_repo       "$APP_PATH" \
                 "$REPO_URI" \
-                "$REPO_BRANCH" \
-                "$app_name"
 
 create_symlinks "$APP_PATH" \
                 "$HOME"
@@ -206,8 +194,6 @@ setup_fork_mode "$fork_maintainer" \
 
 sync_repo       "$HOME/.vim/bundle/vundle" \
                 "$VUNDLE_URI" \
-                "master" \
-                "vundle"
 
 setup_vundle    "$APP_PATH/.vimrc.bundles.default"
 
