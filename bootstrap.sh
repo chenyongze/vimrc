@@ -18,9 +18,11 @@
 app_name='breaker-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.breaker-vim"
 [ -z "$REPO_URI" ] && REPO_URI='https://coding.net/u/breaker/p/vimrc/git/archive/NIPS-vim'
-debug_mode='0'
+debug_mode='1'
 fork_maintainer='0'
-[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/VundleVim/Vundle.vim/archive/master.zip"
+[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://codeload.github.com/VundleVim/Vundle.vim/zip/master"
+[ -z "$TMP_PATH" ] && VIM_TMP_PATH="/tmp/breaker-vim-tmp"
+
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -105,12 +107,24 @@ sync_repo() {
     local repo_path="$1"
     local repo_uri="$2"
 
-    msg "Trying to update $2"
+    msg "Trying to download $2"
+        rm -rf  $VIM_TMP_PATH
         rm -rf  $repo_path
-        mkdir -p "$repo_path"
-        curl -c  "$repo_uri" "$repo_path"
+        mkdir -p  $repo_path
+        rm -rf  $repo_path
+        curl   "$repo_uri" "-o"  "tmp.zip"
+	unzip  "-o" "tmp.zip" "-d" "$VIM_TMP_PATH" > /dev/null
+	for vim_file in `ls $VIM_TMP_PATH`
+	do
+		tmp_file_basename=`basename $VIM_TMP_PATH/$vim_file`
+		vim_file_basename=`basename $repo_path`
+		mv  $VIM_TMP_PATH/$vim_file `dirname ${repo_path}`
+		mv  `dirname ${repo_path}`/$tmp_file_basename  `dirname ${repo_path}`/$vim_file_basename
+		rm -rf $VIM_TMP_PATH/$vim_file 
+	done
+	rm -rf tmp.zip
         ret="$?"
-        success "Successfully cloned $2."
+        success "Successfully download $2."
     debug
 }
 
