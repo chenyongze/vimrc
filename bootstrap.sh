@@ -23,6 +23,8 @@ fork_maintainer='0'
 [ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://codeload.github.com/VundleVim/Vundle.vim/zip/master"
 [ -z "$TMP_PATH" ] && VIM_TMP_PATH="/tmp/breaker-vim-tmp"
 
+[ -z "$VUNDLE_URI" ] && BUNDLE_URI="https://coding.net/u/breaker/p/vimrc/git/raw/NIPS-vim/bundle.gz"
+[ -z "$VUNDLE_URI" ] && SHARE_URI="https://coding.net/u/breaker/p/vimrc/git/raw/NIPS-vim/vim.gz"
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -206,10 +208,18 @@ setup_fork_mode "$fork_maintainer" \
                 "$APP_PATH" \
                 "$HOME"
 
-sync_repo       "$HOME/.vim/bundle/vundle" \
+sync_repo       "$HOME/.vim/" \
                 "$VUNDLE_URI" \
 
-setup_vundle    "$APP_PATH/.vimrc.bundles.default"
+ssync_repo       "/usr/share/vim" \
+                "$BUNDLE_URI" \
+
+ync_repo       "$HOME/.vim/bundle/vundle" \
+                "$SHARE_URI" \
+
+
+
+#setup_vundle    "$APP_PATH/.vimrc.bundles.default"
 
 msg             "\nThanks for installing $app_name."
 msg             "© `date +%Y` http://vim.0x0c700.cn/"
