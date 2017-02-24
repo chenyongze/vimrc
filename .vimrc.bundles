@@ -74,17 +74,17 @@
 " Bundles {
 
     " Deps {
-        Bundle 'gmarik/vundle'
-        Bundle 'MarcWeber/vim-addon-mw-utils'
-        Bundle 'tomtom/tlib_vim'
+        Bundle 'vundle'
+        Bundle 'vim-addon-mw-utils'
+        Bundle 'tlib_vim'
         if executable('ag')
-            Bundle 'mileszs/ack.vim'
+            Bundle 'ack.vim'
             let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
         elseif executable('ack-grep')
             let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-            Bundle 'mileszs/ack.vim'
+            Bundle 'ack.vim'
         elseif executable('ack')
-            Bundle 'mileszs/ack.vim'
+            Bundle 'ack.vim'
         endif
     " }
 
@@ -101,7 +101,7 @@
 
     " General {
         if count(g:spf13_bundle_groups, 'general')
-            Bundle 'scrooloose/nerdtree'
+            Bundle 'nerdtree'
             Bundle 'altercation/vim-colors-solarized'
             Bundle 'spf13/vim-colors'
             Bundle 'tpope/vim-surround'
